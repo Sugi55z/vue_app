@@ -1,28 +1,41 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>タスク管理</h1>
+    <div class="card-wrap">
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+    </div>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import TaskCard from './components/TaskCard.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+
+    TaskCard
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
+  background: #b8fff7;
+  margin: 0;
+}
+#app{
+  max-width: 1000px;
+  margin: 0 auto;
+}
+h1{
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+.card-wrap{
+  display: flex;
+  justify-content: space-between;
 }
 </style>
