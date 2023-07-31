@@ -13,7 +13,7 @@
         </div>
         <div>
           <p class="-explanation">期限</p>
-          <p class="-input"><input type="text" v-model="taskDeadline"></p>
+          <p class="-input"><input type="number" v-model="taskDeadline"></p>
         </div>
       </div>
       <button v-on:click="TaskItem()">登録</button>
@@ -23,11 +23,6 @@
     <div class="task-wrap">
       <div class="task-box">
         <pre>{{ $data }}</pre>
-        <div>
-          <button v-on:click="change()" v-bind:class=stateclass >
-          <p>{{ states }}</p>
-          </button>
-        </div>
         <ul>
           <li v-for="(task, index) in tasks" :key="index">
             <div class="content">
@@ -35,7 +30,7 @@
               <p>{{ task.content}}</p>
             </div>
             <div class="situation">
-              <button v-on:click="change()" v-bind:class=stateclass >
+              <button v-on:click="change()" v-bind:class=task.stateclass >
                 <p>{{ task.states }}</p>
               </button>
 
