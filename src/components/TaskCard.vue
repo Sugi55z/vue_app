@@ -56,7 +56,7 @@
 <script>
 
 
-
+let task = new Object()
 
 export default {
   name: 'TaskCard',
@@ -76,9 +76,11 @@ export default {
   methods: {
         TaskItem() {
           //console.log('click')
+
+
           if( this.newTask === "" ) return
           if( this.taskContent === "" ) return
-          let task = {
+          task = {
             name:this.newTask,
             content:this.taskContent,
             deadline:this.taskDeadline,
@@ -95,18 +97,19 @@ export default {
         },
 
         change(){
-          console.log('click')
+          console.log(task)
 
-          const taskItem = this.task,
+          // const taskItem = task
+          // console.log()
           
 
-          // if(this.states === "未着手"){
-          //   this.states = "処理中";
-          //   this.stateclass = "processing"
-          // } else if (this.states == "処理中"){
-          //   this.states = "未着手";
-          //   this.stateclass = ""
-          // }
+          if(task.states === "未着手"){
+            task.states = "処理中";
+            task.stateclass = "processing"
+          } else if (task.states == "処理中"){
+            task.states = "未着手";
+            task.stateclass = ""
+          }
 
         },
       }
