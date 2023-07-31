@@ -29,14 +29,14 @@
           </button>
         </div>
         <ul>
-          <li v-for="(task, key) in tasks" :key="key">
+          <li v-for="(task, index) in tasks" :key="index">
             <div class="content">
               <h3>{{ task.name}}</h3>
               <p>{{ task.content}}</p>
             </div>
             <div class="situation">
               <button v-on:click="change()" v-bind:class=stateclass >
-                <p>{{ states }}</p>
+                <p>{{ task.states }}</p>
               </button>
 
 
@@ -55,18 +55,18 @@
 
 <script>
 
-
-let task = new Object()
-
+let num = 0;
+let task = new Object();
 export default {
   name: 'TaskCard',
   data(){
-    
     return {
       newTask:"",
       taskContent:"",
       taskDeadline:"",
+      num:"",
       tasks:[],
+
       // states:"未着手",
       // stateclass:""
       
@@ -81,18 +81,20 @@ export default {
           if( this.newTask === "" ) return
           if( this.taskContent === "" ) return
           task = {
+            num:this.num++,
             name:this.newTask,
             content:this.taskContent,
             deadline:this.taskDeadline,
             states:this.states = "未着手",
             stateclass:this.stateclass = ""
+            
           }
           this.tasks.push(task),
           this.newTask = "",
           this.taskContent = "",
-          this.taskDeadline = ""
-
-
+          this.taskDeadline = "",
+          
+          console.log(num)
           
         },
 
