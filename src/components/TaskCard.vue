@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- task表示 -->
-    <form class="resist-wrap" v-on:submit.prevent>
+    <form name="taskResist" class="resist-wrap" v-on:submit.prevent>
       <div class="resist-box">
         <div>
           <p class="-explanation">タイトル</p>
@@ -24,9 +24,12 @@
     <!-- task表示 -->
     <div class="task-wrap">
       <div class="task-box">
-        <!-- <pre>{{ $data }}</pre> -->
+        <pre>{{ $data }}</pre>
+        <div class="task-sort">
+          <button v-on:click="sort()">並び替え</button>
+        </div>
         <ul>
-          <li v-for="(task, index) in tasks" :key="index" v-bind:class=task.closeclass>
+          <li v-for="(task, index) in tasks" :key="(index,task.deadline)" v-bind:class=task.closeclass>
             <div class="content">
               <h3>{{ task.name}}</h3>
               <p>{{ task.content}}</p>
@@ -40,7 +43,7 @@
               <p>{{ task.deadline}}</p>
             </div>
           </li>
-
+          
         </ul>
       </div>
     </div>
@@ -56,7 +59,9 @@ export default {
       newTask:"",
       taskContent:"",
       taskDeadline:"",
+      num:1,
       tasks:[],
+
     }
 
   },
@@ -65,9 +70,10 @@ export default {
     //タスク登録処理
         TaskItem() {
           //console.log('click')
-          if( this.newTask === "" ) return
-          if( this.taskContent === "" ) return
+          if( this.newTask === "" ) return //未入力なら実行しない
+          if( this.taskContent === "" ) return //未入力なら実行しない
           task = {
+            id:this.num++,
             name:this.newTask,
             content:this.taskContent,
             deadline:this.taskDeadline,
@@ -80,6 +86,8 @@ export default {
           this.taskContent = "",
           this.taskDeadline = ""
         },
+
+
         //状態（未着手・処理中・完了）ボタン処理
         change:function(index){
           if(this.tasks[index].states === "未着手"){
@@ -97,8 +105,15 @@ export default {
             this.tasks[index].stateclass = "processing";
             this.tasks[index].closeclass = ""
           }
-
         },
+
+        //期限で並び替え
+        sort:function(){
+          console.log(this.task.deadline)
+        }
+
+
+
       }
 }
 </script>
@@ -143,7 +158,7 @@ export default {
 .resist-wrap button:hover{
   background: #cf024a;
   color: #fff;
-  border: none;
+  border: solid 1px #cf024a;
 }
 
 .task-wrap {
@@ -153,8 +168,29 @@ export default {
 }
 
 .task-wrap .task-box {
-  padding: 10px 20px;
+  padding: 20px;
 }
+
+.task-wrap .task-box .task-sort{
+  margin: 0 0 20px;
+  background: none;
+}
+.task-wrap .task-box .task-sort button{
+  border: solid 1px #333;
+  background: #fff;
+  display: block;
+  padding: 5px 0;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.task-wrap .task-box .task-sort button:hover{
+  background: #cf024a;
+  color: #fff;
+  border: solid 1px #cf024a;
+}
+
+
 
 .task-wrap .task-box h2 {
   text-align: center;
@@ -170,6 +206,7 @@ export default {
   align-items: center;
   margin: 0 0 20px;
   padding: 10px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
 }
 .task-wrap .task-box ul li.complete{
   background: #757575;
@@ -194,6 +231,7 @@ export default {
   background: #cf024a;
   color: #fff;
   padding: 10px 20px;
+  width: 90px;
 }
 .task-wrap .task-box ul li div.situation button.processing{
   background: #fff;
@@ -208,6 +246,61 @@ export default {
 
 .task-wrap .task-box ul li div.deadline {
   width: 15%;
+}
+
+
+
+/*=======スマホ=======*/
+@media screen and (max-width: 799px){
+  .resist-wrap{
+    padding: 20px;
+  }
+.resist-wrap .resist-box div {
+  display: block;
+  margin: 20px 0;
+}
+.resist-wrap .resist-box div p.-explanation {
+  width: 100%;
+}
+.resist-wrap .resist-box div .-input input {
+  display: block;
+  width: 100%;
+}
+.resist-wrap .resist-box div .-input textarea {
+  width: 100%;
+  min-height: 50px;
+}
+.resist-wrap button {
+  width: 50%;
+  margin: 30px auto 0;
+}
+
+.task-wrap .task-box {
+  padding: 20px;
+}
+.task-wrap .task-box ul {
+  padding: 0;
+}
+.task-wrap .task-box ul li {
+  flex-wrap: wrap;
+}
+.task-wrap .task-box ul li div.content{
+  width: 100%;
+  margin-bottom: 10px;
+}
+.task-wrap .task-box ul li div.situation {
+  width: 50%;
+}
+.task-wrap .task-box ul li div.situation button{
+  max-width: 100px;
+  margin: 0;
+}
+
+.task-wrap .task-box ul li div.deadline {
+  width: 50%;
+  text-align: center;
+}
+
 }
 
 </style>
