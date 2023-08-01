@@ -28,7 +28,6 @@
         <div class="task-sort">
           <button v-on:click="sortArry()">並び替え <br class="sp">(登録順)</button>
           <button v-on:click="sortDate()">並び替え <br class="sp">(期限日)</button>
-
         </div>
         <ul>
           <li v-for="(task, index) in tasks" :key="(index,task.id)" v-bind:class=task.closeclass>
@@ -45,7 +44,6 @@
               <p>{{ task.deadline}}</p>
             </div>
           </li>
-          
         </ul>
       </div>
     </div>
@@ -94,7 +92,7 @@ export default {
 
 
         //状態（未着手・処理中・完了）ボタン処理
-        change:function(index){
+        change(index){
           if(this.tasks[index].states === "未着手"){//未着手なら
             this.tasks[index].states = "処理中";
             this.tasks[index].stateclass = "processing";
@@ -113,7 +111,7 @@ export default {
         },
 
         //ID 登録順で並び替え
-        sortArry:function(){
+        sortArry(){
           //タスクID 降順
           if(sortFlag === "asc"){
             sortFlag = "desc";
@@ -127,7 +125,7 @@ export default {
         },
 
        //期限で並び替え
-        sortDate:function(){
+        sortDate(){
           //日付降順
           if(sortDateFlag === "dateasc"){
             sortDateFlag = "datedesc";
@@ -138,7 +136,10 @@ export default {
             sortDateFlag = 'dateasc';
             this.tasks.sort((a, b) => { return (a.deadline > b.deadline ? 1 : -1); });
           }
-        }
+        },
+
+
+
       }
 }
 </script>
@@ -241,6 +242,7 @@ export default {
 }
 .task-wrap .task-box ul li div.content {
   width: 70%;
+  padding: 0 10px 0 0;
 }
 .task-wrap .task-box ul li div.content p{
   white-space: pre-line;
