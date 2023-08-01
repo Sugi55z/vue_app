@@ -4,7 +4,7 @@
     <form class="resist-wrap" v-on:submit.prevent>
       <div class="resist-box">
         <div>
-          <p class="-explanation">タイトル（タスク名）</p>
+          <p class="-explanation">タイトル</p>
           <p class="-input"><input type="text" v-model="newTask"></p>
         </div>
         <div>
@@ -13,7 +13,9 @@
         </div>
         <div>
           <p class="-explanation">期限</p>
-          <p class="-input"><input type="number" v-model="taskDeadline"></p>
+          <p class="-input">
+            <input type="date" v-model="taskDeadline">
+          </p>
         </div>
       </div>
       <button v-on:click="TaskItem()">登録</button>
@@ -22,19 +24,17 @@
     <!-- task表示 -->
     <div class="task-wrap">
       <div class="task-box">
-        <pre>{{ $data }}</pre>
+        <!-- <pre>{{ $data }}</pre> -->
         <ul>
-          <li v-for="(task, index) in tasks" :key="index">
+          <li v-for="(task, index) in tasks" :key="index" v-bind:class=task.closeclass>
             <div class="content">
               <h3>{{ task.name}}</h3>
               <p>{{ task.content}}</p>
             </div>
             <div class="situation">
-              <button v-on:click="change()" v-bind:class=task.stateclass >
+              <button v-on:click="change(index)" v-bind:class=task.stateclass >
                 <p>{{ task.states }}</p>
               </button>
-
-
             </div>
             <div class="deadline">
               <p>{{ task.deadline}}</p>
@@ -45,12 +45,9 @@
       </div>
     </div>
   </div>
-        
 </template>
 
 <script>
-
-let num = 0;
 let task = new Object();
 export default {
   name: 'TaskCard',
@@ -59,53 +56,46 @@ export default {
       newTask:"",
       taskContent:"",
       taskDeadline:"",
-      num:"",
       tasks:[],
-
-      // states:"未着手",
-      // stateclass:""
-      
     }
 
   },
   methods: {
+
+    //タスク登録処理
         TaskItem() {
           //console.log('click')
-
-
           if( this.newTask === "" ) return
           if( this.taskContent === "" ) return
           task = {
-            num:this.num++,
             name:this.newTask,
             content:this.taskContent,
             deadline:this.taskDeadline,
             states:this.states = "未着手",
-            stateclass:this.stateclass = ""
-            
+            stateclass:this.stateclass = "",
+            closeclass:this.closeclass = ""
           }
           this.tasks.push(task),
           this.newTask = "",
           this.taskContent = "",
-          this.taskDeadline = "",
-          
-          console.log(num)
-          
+          this.taskDeadline = ""
         },
-
-        change(){
-          console.log(task)
-
-          // const taskItem = task
-          // console.log()
-          
-
-          if(task.states === "未着手"){
-            task.states = "処理中";
-            task.stateclass = "processing"
-          } else if (task.states == "処理中"){
-            task.states = "未着手";
-            task.stateclass = ""
+        //状態（未着手・処理中・完了）ボタン処理
+        change:function(index){
+          if(this.tasks[index].states === "未着手"){
+            this.tasks[index].states = "処理中";
+            this.tasks[index].stateclass = "processing";
+            this.tasks[index].closeclass = ""
+          }
+          else if (this.tasks[index].states === "処理中"){
+            this.tasks[index].states = "完了";
+            this.tasks[index].stateclass = "";
+            this.tasks[index].closeclass = "complete"
+          }
+          else if (this.tasks[index].states === "完了"){
+            this.tasks[index].states = "処理中";
+            this.tasks[index].stateclass = "processing";
+            this.tasks[index].closeclass = ""
           }
 
         },
@@ -117,7 +107,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .resist-wrap {
   background: #fff;
   padding: 20px 10px;
@@ -151,6 +140,11 @@ export default {
   width: 100px;
   margin: 0 auto;
 }
+.resist-wrap button:hover{
+  background: #cf024a;
+  color: #fff;
+  border: none;
+}
 
 .task-wrap {
   width: 100%;
@@ -177,9 +171,15 @@ export default {
   margin: 0 0 20px;
   padding: 10px;
 }
-
+.task-wrap .task-box ul li.complete{
+  background: #757575;
+  color: #d4d4d4;
+}
 .task-wrap .task-box ul li div.content {
   width: 70%;
+}
+.task-wrap .task-box ul li div.content p{
+  white-space: pre-line;
 }
 
 .task-wrap .task-box ul li div.situation {
@@ -201,6 +201,11 @@ export default {
   color: #333;
   display: block;
 }
+.task-wrap .task-box ul li.complete div.situation button{
+  background: #333;
+  color: #fff;
+}
+
 .task-wrap .task-box ul li div.deadline {
   width: 15%;
 }
