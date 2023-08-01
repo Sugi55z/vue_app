@@ -25,7 +25,16 @@ export default {
 :root {
   color-scheme: light;
 }
-
+@media screen and (min-width: 800px){
+  .sp{
+    display: none;
+  }
+}
+@media screen and (max-width: 799px){
+  .sp{
+    display: block;
+  }
+}
 body {
   background: #e8fdff;
   padding: 20px;

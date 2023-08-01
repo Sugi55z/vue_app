@@ -26,8 +26,8 @@
       <div class="task-box">
         <!-- <pre>{{ $data }}</pre> -->
         <div class="task-sort">
-          <button v-on:click="sortArry()">並び替え (登録順)</button>
-          <button v-on:click="sortDate()">並び替え (期限日)</button>
+          <button v-on:click="sortArry()">並び替え <br class="sp">(登録順)</button>
+          <button v-on:click="sortDate()">並び替え <br class="sp">(期限日)</button>
 
         </div>
         <ul>
